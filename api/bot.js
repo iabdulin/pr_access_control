@@ -1,4 +1,3 @@
-// Built-in Node.js modules. No external dependencies needed.
 import { createHmac, timingSafeEqual, createSign } from 'crypto';
 import { request } from 'https';
 
@@ -16,6 +15,24 @@ const {
   GITHUB_PRIVATE_KEY,  // Your App's private key, base64-encoded
 } = process.env;
 
+// --- VERCEL CONFIG ---
+// Disable Vercel's automatic body parser to get the raw body for signature verification
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+// --- HELPER TO READ RAW BODY ---
+async function readRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('error', (err) => reject(err));
+    req.on('end', () => resolve(Buffer.concat(chunks).toString()));
+  });
+}
+
 // --- MAIN HANDLER ---
 // This is the Vercel serverless function entry point.
 export default async function handler(req, res) {
@@ -23,12 +40,20 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
+  // Read the raw body
+  let rawBody;
+  try {
+    rawBody = await readRawBody(req);
+  } catch (error) {
+    console.error('Error reading request body:', error.message);
+    return res.status(400).json({ message: 'Could not read request body' });
+  }
+
   // 1. Verify the webhook signature
   try {
     const signature = req.headers['x-hub-signature-256'];
-    const payloadBody = req.body; // Vercel automatically provides the raw body
 
-    if (!verifyWebhookSignature(signature, payloadBody)) {
+    if (!verifyWebhookSignature(signature, rawBody)) {
       console.warn('Invalid webhook signature');
       return res.status(401).json({ message: 'Invalid signature' });
     }
@@ -39,7 +64,7 @@ export default async function handler(req, res) {
 
   // 2. Route the event to the correct handler
   const event = req.headers['x-github-event'];
-  const payload = JSON.parse(req.body);
+  const payload = JSON.parse(rawBody);
 
   try {
     const api = new GitHubAPI(payload.installation.id);
@@ -413,3 +438,4 @@ function generateJwt() {
 
   return `${encodedHeader}.${encodedPayload}.${signature}`;
 }
+
