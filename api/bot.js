@@ -65,6 +65,7 @@ export default async function handler(req, res) {
   // 2. Route the event to the correct handler
   const event = req.headers['x-github-event'];
   const payload = JSON.parse(rawBody);
+  console.log(payload)
 
   try {
     const api = new GitHubAPI(payload.installation.id);
