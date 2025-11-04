@@ -84,7 +84,7 @@ When someone submits a review, the bot:
 
 ### 3. Merge Command
 
-When the PR author comments `/merge`:
+When the PR author types `/merge` in a PR comment:
 
 - Validates the commenter is the PR author
 - Checks approval requirements are met
