@@ -307,7 +307,7 @@ If something doesn't work, check the [Troubleshooting](#troubleshooting) section
 
 1. Open a pull request
 2. Wait for required approvals from both teams
-3. When ready, comment `/merge` to merge the PR
+3. When ready, add `/merge` to a PR comment (not a review comment) to merge the PR
 
 ### For Reviewers
 
