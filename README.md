@@ -10,7 +10,7 @@ This serverless application runs on Vercel and responds to GitHub webhook events
 - ✅ At least one approval from an **Anza** team member
 - ⛔ No blocking "Request Changes" reviews from either team
 
-Once requirements are met, the PR author can merge using the `/merge` command.
+Once these requirements are met, the PR author can merge the changes by typing `/merge` into a comment on the PR.
 
 ## Features
 
