@@ -453,7 +453,7 @@ Log format:
 
 ### Bot doesn't respond to `/merge` command
 
-- Verify the command is in an issue comment (not a review comment)
+- Verify the command is in an `issue_comment` associated with a PR (not a review comment, or an `issue_comment` associated with an "Issue")
 - Check that the commenter is the PR author
 - Look at Vercel logs to see if the webhook was received
 - Ensure "Issue comment" event is enabled in GitHub App settings
