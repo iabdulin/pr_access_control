@@ -69,7 +69,7 @@ This PR requires the following approvals before it can be merged:
 - At least one approval from a Jump team member: @user1, @user2...
 - At least one approval from an Anza team member: @user3, @user4...
 
-Once all requirements are met, you can merge this PR by commenting `/merge`.
+Once all requirements are met, you can merge this PR by typing `/merge` into a comment on this PR.
 ```
 
 ### 2. Review Submitted
