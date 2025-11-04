@@ -78,10 +78,9 @@ When someone submits a review, the bot:
 
 - Fetches all reviews for the PR
 - Processes them chronologically to determine current approval state
-- Handles special cases:
-  - **Request Changes**: Posts a block message
-  - **Approve**: Checks if all requirements met
-  - **Requested reviewers**: Ignores old reviews from users who need to re-review
+- Depending on whether the reviewer approves the PR or requests changes:
+  - If the reviewer approved the PR: Checks if all other requirements are met. If they are, posts instructions on how to merge. If they are not, posts a notification explaining what is currently blocking the merge.
+  - If the reviewer requested changes: Posts a message saying that the PR cannot be merged
 
 ### 3. Merge Command
 
